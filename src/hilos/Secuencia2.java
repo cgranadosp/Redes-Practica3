@@ -8,6 +8,7 @@ public class Secuencia2 implements Runnable {
 	int numEvaluarFibonacci = 0;
 	int numEvaluarPar = 0;
 	JTextArea textArea_h2;
+	 
 	int numInterrupcion = 0;
 	
 	public Secuencia2(JTextArea textArea_h2){
@@ -36,7 +37,7 @@ public class Secuencia2 implements Runnable {
 				Thread.sleep(250);
 			} catch (InterruptedException e) {
 				numInterrupcion++;
-				textArea_h2.append("------Interrupción #" + numInterrupcion + "------ \n Números pares \n");
+				textArea_h2.append("----Interrupción #" + numInterrupcion + "---- \n Números pares \n");
 				cambioDeTarea();
 			}
 			
@@ -53,7 +54,7 @@ public class Secuencia2 implements Runnable {
 				Thread.sleep(250);
 			} catch (InterruptedException e) {
 				numInterrupcion++;
-				textArea_h2.append("------Interrupción #" + numInterrupcion + "------ \n Serie de Fibonacci \n");
+				textArea_h2.append("----Interrupción #" + numInterrupcion + "---- \n Serie de Fibonacci \n");
 				cambioDeTarea();
 			}
 		}
@@ -67,7 +68,21 @@ public class Secuencia2 implements Runnable {
 			tareaActual = 0;
 			calcularFibonacci();
 		}
-			
+	}
+	
+	public StringBuilder getInformacion(StringBuilder sb){
+		
+		sb.append("----------------------------------------\n");
+		sb.append("ID: " + Thread.currentThread().getId() + "\n");
+		sb.append("Nombre: " + Thread.currentThread().getName() + "\n");
+		sb.append("Estado actual: " + Thread.currentThread().getState() + "\n");
+		if(tareaActual == 0)
+			sb.append("Secuencia: Serie de Fibonacci \n");
+		else
+			sb.append("Secuencia: Números pares \n");
+		sb.append("----------------------------------------\n");
+		
+		return sb;
 	}
 
 	@Override

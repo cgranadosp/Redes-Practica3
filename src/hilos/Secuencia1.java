@@ -41,7 +41,7 @@ public class Secuencia1 implements Runnable {
 						Thread.sleep(250);
 					} catch (InterruptedException e) {
 						numInterrupcion++;
-						textArea_h1.append("------Interrupción #" + numInterrupcion + "------ \n Abecedario \n");
+						textArea_h1.append("----Interrupción #" + numInterrupcion + "---- \n Abecedario \n");
 						cambioDeTarea();
 					}
 				}
@@ -72,7 +72,7 @@ public class Secuencia1 implements Runnable {
 				Thread.sleep(250);
 			} catch (InterruptedException e) {
 				numInterrupcion++;
-				textArea_h1.append("------Interrupción #" + numInterrupcion + "------ \n Números primos \n");
+				textArea_h1.append("----Interrupción #" + numInterrupcion + "---- \n Números primos \n");
 				cambioDeTarea();
 			}
 		}
@@ -86,6 +86,21 @@ public class Secuencia1 implements Runnable {
 			tareaActual = 0;
 			calcularNumeroPrimo();
 		}
+	}
+	
+	public StringBuilder getInformacion(StringBuilder sb){
+		
+		sb.append("----------------------------------------\n");
+		sb.append("ID: " + Thread.currentThread().getId() + "\n");
+		sb.append("Nombre: " + Thread.currentThread().getName() + "\n");
+		sb.append("Estado actual: " + Thread.currentThread().getState() + "\n");
+		if(tareaActual == 0)
+			sb.append("Secuencia: Números primos\n");
+		else
+			sb.append("Secuencia: Abecedario\n");
+		sb.append("----------------------------------------\n");
+		
+		return sb;
 	}
 
 	@Override

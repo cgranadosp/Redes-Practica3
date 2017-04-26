@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Font;
 
@@ -9,13 +8,18 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.DefaultCaret;
 
+import files.CreadorLog;
 import hilos.ManejoInterrupciones;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ScrollPaneConstants;
 
 public class GuiHilos extends JFrame {
 
@@ -25,6 +29,20 @@ public class GuiHilos extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
+		try {
+			// Set System L&F
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (UnsupportedLookAndFeelException e) {
+			// handle exception
+		} catch (ClassNotFoundException e) {
+			// handle exception
+		} catch (InstantiationException e) {
+			// handle exception
+		} catch (IllegalAccessException e) {
+			// handle exception
+		}
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -52,36 +70,42 @@ public class GuiHilos extends JFrame {
 		contentPane.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(550, 40, 205, 349);
+		scrollPane.setBounds(533, 40, 245, 349);
 		contentPane.add(scrollPane);
 		
 		JTextArea txtrInterrupcin = new JTextArea();
 		txtrInterrupcin.setText("Interrupci\u00F3n\r\n");
 		txtrInterrupcin.setEditable(false);
-		txtrInterrupcin.setLineWrap(true);
 		scrollPane.setViewportView(txtrInterrupcin);
 		
+		DefaultCaret caret = (DefaultCaret)txtrInterrupcin.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(300, 40, 205, 349);
+		scrollPane_1.setBounds(283, 40, 222, 349);
 		contentPane.add(scrollPane_1);
 		
 		JTextArea txtrSerieDeFibonacci = new JTextArea();
 		txtrSerieDeFibonacci.setText("Serie de Fibonacci\r\n");
 		txtrSerieDeFibonacci.setEditable(false);
-		txtrSerieDeFibonacci.setLineWrap(true);
 		scrollPane_1.setViewportView(txtrSerieDeFibonacci);
+		
+		DefaultCaret caret2 = (DefaultCaret)txtrSerieDeFibonacci.getCaret();
+		caret2.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
 		scrollPane_2.setEnabled(false);
-		scrollPane_2.setBounds(50, 40, 205, 349);
+		scrollPane_2.setBounds(33, 40, 222, 349);
 		contentPane.add(scrollPane_2);
 		
 		JTextArea txtrNmerosPrimos = new JTextArea();
 		txtrNmerosPrimos.setText("N\u00FAmeros primos\r\n");
 		txtrNmerosPrimos.setToolTipText("");
 		txtrNmerosPrimos.setEditable(false);
-		txtrNmerosPrimos.setLineWrap(true);
-		scrollPane_2.setViewportView(txtrNmerosPrimos);
+		scrollPane_2.setViewportView(txtrNmerosPrimos);		
+		
+		DefaultCaret caret3 = (DefaultCaret)txtrNmerosPrimos.getCaret();
+		caret3.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		
 		JLabel lblHilosecuencia = new JLabel("Hilo_Secuencia1");
 		lblHilosecuencia.setBounds(50, 13, 205, 15);
@@ -98,9 +122,14 @@ public class GuiHilos extends JFrame {
 		JButton btnComenzar = new JButton("Comenzar");
 		btnComenzar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ManejoInterrupciones manejoInterrupciones = new ManejoInterrupciones(txtrNmerosPrimos, txtrSerieDeFibonacci, txtrInterrupcin);
+				
+				CreadorLog logger = new CreadorLog();
+				logger.crearArchivoLog();
+				ManejoInterrupciones manejoInterrupciones = new ManejoInterrupciones(txtrNmerosPrimos, txtrSerieDeFibonacci, txtrInterrupcin, logger);
 				Thread hilo_interrupciones = new Thread(manejoInterrupciones);
+				manejoInterrupciones.setHilo(hilo_interrupciones);
 				hilo_interrupciones.start();
+				btnComenzar.setEnabled(false);
 			}
 		});
 		btnComenzar.setBounds(666, 400, 89, 23);
