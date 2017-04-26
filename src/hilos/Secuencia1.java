@@ -1,9 +1,18 @@
 package hilos;
 
+import javax.swing.JTextArea;
+
 public class Secuencia1 implements Runnable {
+	
 	int tareaActual = 0;
 	int numEvaluarPrimo = 1;
 	int letraActual = 97;
+	JTextArea textArea_h1;
+	int numInterrupcion = 0;
+	
+	public Secuencia1(JTextArea textArea_h1){
+		this.textArea_h1 = textArea_h1;
+	}
 	
 	//Tarea 0
 	public void calcularNumeroPrimo(){
@@ -25,12 +34,14 @@ public class Secuencia1 implements Runnable {
 				
 				if(divisor == 2){
 					numPrimo = i;
-					System.out.println("Número primo: "+numPrimo);
+					//System.out.println("Número primo: "+numPrimo);
+					textArea_h1.append(numPrimo + "\n");
 				
 					try {
 						Thread.sleep(250);
 					} catch (InterruptedException e) {
-						System.out.println("------Interrumpido mientras dormía-------");
+						numInterrupcion++;
+						textArea_h1.append("------Interrupción #" + numInterrupcion + "------ \n Abecedario \n");
 						cambioDeTarea();
 					}
 				}
@@ -47,7 +58,8 @@ public class Secuencia1 implements Runnable {
 		
 		while(true){
 			char letra = (char) i_continua;
-			System.out.println(letra);
+			//System.out.println(letra);
+			textArea_h1.append(letra + "\n");
 			
 			i_continua++;
 			
@@ -59,29 +71,11 @@ public class Secuencia1 implements Runnable {
 			try {
 				Thread.sleep(250);
 			} catch (InterruptedException e) {
-				System.out.println("------Interrumpido mientras dormía-------");
+				numInterrupcion++;
+				textArea_h1.append("------Interrupción #" + numInterrupcion + "------ \n Números primos \n");
 				cambioDeTarea();
 			}
 		}
-			
-//			if(i_continua > 122)
-//				i_continua = 97;
-//			
-//			for(int i = i_continua; i < 123; i++){
-//				char letra = (char) i;
-//				
-//				letraActual = i+1;
-//				System.out.println(letra);
-//				
-//				try {
-//					Thread.sleep(250);
-//				} catch (InterruptedException e) {
-//					System.out.println("------Interrumpido mientras dormía-------");
-//					cambioDeTarea();
-//				}
-//				
-//			}
-//		}
 	}
 	
 	public void cambioDeTarea(){
@@ -92,7 +86,6 @@ public class Secuencia1 implements Runnable {
 			tareaActual = 0;
 			calcularNumeroPrimo();
 		}
-			
 	}
 
 	@Override
