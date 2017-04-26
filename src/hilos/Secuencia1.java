@@ -14,9 +14,13 @@ public class Secuencia1 implements Runnable {
 			
 			for(int i = i_continua; i < 1000; i++){
 				for(int j = 1; j < i+1; j++){
+					
 					numEvaluarPrimo = i+1;
 					if(i%j == 0)
 						divisor++;
+					
+					if(numEvaluarPrimo>997)
+						numEvaluarPrimo = 1;
 				}
 				
 				if(divisor == 2){

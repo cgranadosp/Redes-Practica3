@@ -2,28 +2,10 @@ package hilos;
 
 public class Secuencia2 implements Runnable {
 
-	public void calcularSerieFibonacci(){
-		int f1 = 0;
-		int f2 = 1;
-		int f = 0;
-		
-		while(true){
-			f = f1+f2;
-			
-			if(f < 0){
-				f1 = 0;
-				f2 = 1;
-				f = f1+f2;
-			}
-			
-			System.out.println("Fibonacci: "+f);
-			
-			f1 = f2;
-			f2 = f;
-		}
-	}
-	
+	int tareaActual;
+
 	public void calcularFibonacci(){
+		
 		Double funcion;
 		int numFibonacci;
 		int n = 0;
@@ -56,6 +38,18 @@ public class Secuencia2 implements Runnable {
 			numeroPar = numeroPar+2;
 			System.out.println("Número par: "+numeroPar);
 		}
+	}
+	
+	public void cambioDeTarea(){
+		if(tareaActual == 0){
+			tareaActual = 1;
+			calcularNumeroPar();
+		}else{
+			tareaActual = 0;
+			calcularFibonacci();
+			
+		}
+			
 	}
 
 	@Override
